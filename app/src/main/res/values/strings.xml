@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">BestNights</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="ok">OK</string>
+    <string name="new_party">New Party</string>
+    <string name="cancel">Cancel</string>
+    <string name="eventname">Event name</string>
+    <string name="ticketprice">Ticket price</string>
+    <string name="ticketamount">Number of tickets</string>
+    <string name="eventcapacity">Capacity of the event:</string>
+    <string name="eventlocation">Event location:</string>
+    <string name="earlybirdprice">Earlybird ticket price</string>
+    <string name="normalprice">Normal ticket price</string>
+    <string name="earlybirdamount">Number of earlybird tickets</string>
+    <string name="normalamount">Number of normal tickets</string>
+    <string name="new_festival">New festival</string>
+    <string name="edit_festival">Edit festival</string>
+</resources>
