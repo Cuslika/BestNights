@@ -9,6 +9,9 @@ interface UserDao {
     @Query("Select * From User WHERE name LIKE :name and password LIKE :password")
     fun getUser(name: String, password: String): User
 
+    @Query("Select * From User")
+    fun getUsers(): List<User>
+
     @Insert
     fun insert(user: User): Long
 

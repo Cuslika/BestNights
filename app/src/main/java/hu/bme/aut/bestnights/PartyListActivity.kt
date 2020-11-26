@@ -16,14 +16,14 @@ import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 import hu.bme.aut.bestnights.adapter.AdminPartyAdapter
 import hu.bme.aut.bestnights.data.PartyDatabase
-import hu.bme.aut.bestnights.fragments.NewPartyDialogFragment
+import hu.bme.aut.bestnights.fragments.party.NewPartyDialogFragment
 import hu.bme.aut.bestnights.model.Party
 import hu.bme.aut.bestnights.model.User
 import kotlinx.android.synthetic.main.activity_party_list.*
 import kotlinx.android.synthetic.main.content_party_list_admin.*
 import kotlin.concurrent.thread
 
-class PartyListActivity : AppCompatActivity(), AdminPartyAdapter.PartyClickListener, NewPartyDialogFragment.NewPartyDialogListener, NavigationView.OnNavigationItemSelectedListener {
+class PartyListActivity : AppCompatActivity(), AdminPartyAdapter.PartyClickListener,  NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapterAdmin: AdminPartyAdapter
@@ -64,7 +64,7 @@ class PartyListActivity : AppCompatActivity(), AdminPartyAdapter.PartyClickListe
 
     private fun initRecyclerView() {
         recyclerView = PAdminRecyclerView
-        adapterAdmin = AdminPartyAdapter(this)
+        adapterAdmin = AdminPartyAdapter(this, supportFragmentManager)
         loadItemsInBackground()
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapterAdmin
@@ -79,13 +79,6 @@ class PartyListActivity : AppCompatActivity(), AdminPartyAdapter.PartyClickListe
         }
     }
 
-    override fun onItemChanged(item: Party) {
-        thread {
-            database.partyDao().update(item)
-            Log.d("Debug", "Party update was successful")
-        }
-    }
-
     override fun onItemDeleted(item: Party) {
         thread {
             database.partyDao().deleteParty(item)
@@ -93,18 +86,6 @@ class PartyListActivity : AppCompatActivity(), AdminPartyAdapter.PartyClickListe
                 adapterAdmin.removeItem(item)
             }
             Log.d("Debug", "Party delete was successful")
-        }
-    }
-
-    override fun onPartyCreated(newParty: Party) {
-        thread {
-            val newId = database.partyDao().insert(newParty)
-            val newP = newParty.copy(
-                id = newId
-            )
-            runOnUiThread {
-                adapterAdmin.addParty(newP)
-            }
         }
     }
 

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -17,8 +16,8 @@ import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 import hu.bme.aut.bestnights.adapter.AdminFestivalAdapter
 import hu.bme.aut.bestnights.data.FestivalDatabase
-import hu.bme.aut.bestnights.fragments.EditFestivalDialogFragment
-import hu.bme.aut.bestnights.fragments.NewFestivalDialogFragment
+import hu.bme.aut.bestnights.fragments.festival.EditFestivalDialogFragment
+import hu.bme.aut.bestnights.fragments.festival.NewFestivalDialogFragment
 import hu.bme.aut.bestnights.model.Festival
 import hu.bme.aut.bestnights.model.User
 import kotlinx.android.synthetic.main.activity_festival_admin.*

@@ -1,9 +1,8 @@
-package hu.bme.aut.bestnights.fragments
+package hu.bme.aut.bestnights.fragments.festival
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.opengl.ETC1.isValid
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import hu.bme.aut.bestnights.R
 import hu.bme.aut.bestnights.model.Festival
-import kotlinx.android.synthetic.main.dialog_new_festival.*
 
 class NewFestivalDialogFragment : DialogFragment() {
 
@@ -28,12 +26,19 @@ class NewFestivalDialogFragment : DialogFragment() {
     private lateinit var fna : EditText
     private lateinit var fl : EditText
 
-    private fun isValid() = fn.text.isNotEmpty()
+    private fun isValid(): Boolean {
+        return fn.text.isNotEmpty() &&
+                fep.text.isNotEmpty() &&
+                fnp.text.isNotEmpty()
+                //fea.text.isNotEmpty() &&
+                //fna.text.isNotEmpty() &&
+                //fl.text.isNotEmpty()
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = context as? NewFestivalDialogListener
-            ?: throw RuntimeException("Activity must implement the NewShoppingItemDialogListener interface!")
+            ?: throw RuntimeException("Activity must implement the NewPartyDialogListener interface!")
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

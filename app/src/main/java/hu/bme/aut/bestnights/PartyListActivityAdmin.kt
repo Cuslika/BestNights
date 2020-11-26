@@ -1,5 +1,6 @@
 package hu.bme.aut.bestnights
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,14 +17,16 @@ import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 import hu.bme.aut.bestnights.adapter.AdminPartyAdapter
 import hu.bme.aut.bestnights.data.PartyDatabase
-import hu.bme.aut.bestnights.fragments.NewPartyDialogFragment
+import hu.bme.aut.bestnights.fragments.festival.EditFestivalDialogFragment
+import hu.bme.aut.bestnights.fragments.party.EditPartyDialogFragment
+import hu.bme.aut.bestnights.fragments.party.NewPartyDialogFragment
 import hu.bme.aut.bestnights.model.Party
 import hu.bme.aut.bestnights.model.User
 import kotlinx.android.synthetic.main.activity_party_admin.*
 import kotlinx.android.synthetic.main.content_party_list_admin.*
 import kotlin.concurrent.thread
 
-class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClickListener, NewPartyDialogFragment.NewPartyDialogListener, NavigationView.OnNavigationItemSelectedListener {
+class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClickListener, NewPartyDialogFragment.NewPartyDialogListener, EditPartyDialogFragment.EditPartyDialogListener, NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapterAdmin: AdminPartyAdapter
@@ -31,13 +34,15 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
 
+    private lateinit var user: User
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_party_admin)
 
         setTitle("Upcoming parties")
 
-        val user = intent.getSerializableExtra("User") as User
+        user = intent.getSerializableExtra("User") as User
 
         paddm.setOnClickListener {
             NewPartyDialogFragment().show(
@@ -70,7 +75,7 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
 
     private fun initRecyclerView() {
         recyclerView = PAdminRecyclerView
-        adapterAdmin = AdminPartyAdapter(this)
+        adapterAdmin = AdminPartyAdapter(this, supportFragmentManager)
         loadItemsInBackground()
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapterAdmin
@@ -82,13 +87,6 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
             runOnUiThread {
                 adapterAdmin.update(items)
             }
-        }
-    }
-
-    override fun onItemChanged(item: Party) {
-        thread {
-            database.partyDao().update(item)
-            Log.d("Debug", "Party update was successful")
         }
     }
 
@@ -114,6 +112,15 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
         }
     }
 
+    override fun onPartyEdited(party: Party) {
+        thread {
+            database.partyDao().update(party)
+            runOnUiThread {
+                adapterAdmin.update(party)
+            }
+        }
+    }
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         toggle.syncState()
@@ -128,8 +135,21 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.profile -> Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
-            R.id.tickets -> Toast.makeText(this, "Tickets", Toast.LENGTH_SHORT).show()
+            R.id.profile -> {
+                val intent = Intent(this, ProfileActivity::class.java)
+                intent.putExtra("User", user)
+                startActivity(intent)
+            }
+            R.id.tickets -> {
+                val intent = Intent(this, TicketsActivity::class.java)
+                intent.putExtra("User", user)
+                startActivity(intent)
+            }
+            R.id.logout -> {
+                val intent = Intent(this, LoginActivity::class.java)
+                finish()
+                startActivity(intent)
+            }
         }
         drawer.closeDrawer(GravityCompat.START)
         return true

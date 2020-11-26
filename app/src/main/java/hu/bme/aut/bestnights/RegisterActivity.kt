@@ -41,12 +41,17 @@ class RegisterActivity : AppCompatActivity() {
             }else if (etPasswordA.text.toString().isEmpty()) {
                 etPasswordA.requestFocus()
                 etPasswordA.error = "Please enter your password again."
-            } else if(pw.equals(pwa)) {
-                val user = User(null, uN, uE, pw)
-                db.insert(user)
-                val intent = Intent(applicationContext, LoginActivity::class.java)
-                finish()
-                startActivity(intent)
+            }
+            if(pw.equals(pwa)) {
+                val user = User(null, uN, uE, pw, null, null)
+                if(newUserCheck(user)){
+                    db.insert(user)
+                    val intent = Intent(applicationContext, LoginActivity::class.java)
+                    finish()
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(applicationContext, "Change name or email address!",Toast.LENGTH_LONG).show()
+                }
             } else {
                 Toast.makeText(applicationContext, "Passwords are not matching!",Toast.LENGTH_LONG).show()
             }
@@ -57,6 +62,15 @@ class RegisterActivity : AppCompatActivity() {
             finish()
             startActivity(intent)
         }
-
     }
+
+    private fun newUserCheck(user: User): Boolean {
+        var uL = db.getUsers()
+        for(u: User in uL) {
+            if(u.name == user.name || u.email == user.email)
+                return false
+        }
+        return true
+    }
+
 }

@@ -9,10 +9,10 @@ import java.util.*
 @Entity(tableName ="party")
 data class Party (
     @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Long?,
-    @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "price") val price: Int,
-    @ColumnInfo(name = "amount") val amount: Int
-   //@ColumnInfo(name = "capacity") val capacity: Int,
-    //@ColumnInfo(name = "location") val location: String,
-    //@ColumnInfo(name = "date") val date: Date
+    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "price") var price: Int,
+    @ColumnInfo(name = "amount") var amount: Int,
+    @ColumnInfo(name = "capacity") var capacity: Int,
+    @ColumnInfo(name = "location") var location: String,
+    @ColumnInfo(name = "date") var date: Date?
 ) : Serializable

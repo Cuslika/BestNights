@@ -2,7 +2,6 @@ package hu.bme.aut.bestnights
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -14,15 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
-import hu.bme.aut.bestnights.adapter.AdminFestivalAdapter
 import hu.bme.aut.bestnights.adapter.FestivalAdapter
 import hu.bme.aut.bestnights.data.FestivalDatabase
-import hu.bme.aut.bestnights.fragments.NewFestivalDialogFragment
+import hu.bme.aut.bestnights.fragments.festival.NewFestivalDialogFragment
 import hu.bme.aut.bestnights.model.Festival
 import hu.bme.aut.bestnights.model.User
 import kotlinx.android.synthetic.main.activity_festival_list.*
 import kotlinx.android.synthetic.main.content_festival_list_admin.*
-import kotlin.concurrent.thread
 
 class FestivalListActivity : AppCompatActivity(), FestivalAdapter.FestivalClickListener, NewFestivalDialogFragment.NewFestivalDialogListener, NavigationView.OnNavigationItemSelectedListener {
 

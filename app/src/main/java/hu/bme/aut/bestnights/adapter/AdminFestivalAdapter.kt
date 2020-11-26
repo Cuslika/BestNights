@@ -1,19 +1,15 @@
 package hu.bme.aut.bestnights.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.bestnights.R
-import hu.bme.aut.bestnights.fragments.EditFestivalDialogFragment
+import hu.bme.aut.bestnights.fragments.festival.EditFestivalDialogFragment
 import hu.bme.aut.bestnights.model.Festival
-import kotlin.concurrent.thread
 
 class AdminFestivalAdapter(private val listener: AdminFestivalClickListener, private val supportFragmentManager: FragmentManager) : RecyclerView.Adapter<AdminFestivalAdapter.FestivalViewHolder>() {
 

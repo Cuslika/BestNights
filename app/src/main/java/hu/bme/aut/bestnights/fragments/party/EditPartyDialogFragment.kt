@@ -1,25 +1,24 @@
-package hu.bme.aut.bestnights.fragments
+package hu.bme.aut.bestnights.fragments.party
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.opengl.ETC1.isValid
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import hu.bme.aut.bestnights.R
+import hu.bme.aut.bestnights.fragments.festival.EditFestivalDialogFragment
 import hu.bme.aut.bestnights.model.Party
-import kotlinx.android.synthetic.main.dialog_new_party.*
 
-class NewPartyDialogFragment : DialogFragment() {
+class EditPartyDialogFragment(party: Party): DialogFragment() {
 
-    interface NewPartyDialogListener {
-        fun onPartyCreated(newParty: Party)
+    interface EditPartyDialogListener {
+        fun onPartyEdited(party: Party)
     }
 
-    private lateinit var listener: NewPartyDialogListener
+    private lateinit var listener: EditPartyDialogListener
 
     private lateinit var pn : EditText
     private lateinit var pp : EditText
@@ -27,35 +26,32 @@ class NewPartyDialogFragment : DialogFragment() {
     private lateinit var pc : EditText
     private lateinit var pl : EditText
 
-    private fun isValid() = pn.text.isNotEmpty()
+    private var p: Party = party
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context as? NewPartyDialogListener
-            ?: throw RuntimeException("Activity must implement the NewShoppingItemDialogListener interface!")
+        listener = context as? EditPartyDialogListener
+            ?: throw RuntimeException("Activity must implement the EditFestivalDialogListener interface!")
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.new_party)
+            .setTitle(R.string.edit_festival)
             .setView(getContentView())
             .setPositiveButton(R.string.ok) { dialogInterface, i ->
-                if (isValid()) {
-                    listener.onPartyCreated(getParty())
-                }
+                listener.onPartyEdited(getParty())
             }
             .setNegativeButton(R.string.cancel, null)
             .create()
     }
 
-    private fun getParty() = Party(
-        id = null,
-        name = pn.text.toString(),
-        price = pp.text.toString().toInt(),
-        amount = pa.text.toString().toInt()
-        //capacity = pc.text.toString().toInt(),
-        //location = pl.text.toString()
-    )
+    private fun getParty(): Party {
+        p.name = pn.text.toString()
+        p.price = pp.text.toString().toInt()
+        p.amount = pa.text.toString().toInt()
+
+        return p
+    }
 
     private fun getContentView(): View {
         val contentView = LayoutInflater.from(context).inflate(R.layout.dialog_new_party, null)
@@ -65,11 +61,15 @@ class NewPartyDialogFragment : DialogFragment() {
         pc = contentView.findViewById(R.id.PartyPrice)
         pl = contentView.findViewById(R.id.PartyLocation)
 
+        pn.setText(p.name)
+        pp.setText(p.price.toString())
+        pa.setText(p.amount.toString())
+
         return contentView
     }
 
     companion object {
-        const val TAG = "NewPartyDialogFragment"
+        const val TAG = "EditPartyDialogFragment"
     }
 
 }
