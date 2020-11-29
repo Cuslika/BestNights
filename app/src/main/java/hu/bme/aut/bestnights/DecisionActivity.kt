@@ -3,6 +3,7 @@ package hu.bme.aut.bestnights
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -11,7 +12,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import hu.bme.aut.bestnights.ListActivity.Companion.EVENT_TYPE
 import hu.bme.aut.bestnights.model.User
 import kotlinx.android.synthetic.main.activity_decision.*
 
@@ -38,6 +38,11 @@ class DecisionActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         var nh: View = nv.getHeaderView(0)
         var ntv: TextView = nh.findViewById(R.id.yourName)
         ntv.setText(user.name)
+
+        if(user.name.equals("admin")) {
+            nv.menu.clear()
+            nv.inflateMenu(R.menu.nav_drawer_admin_menu)
+        }
 
         drawer = findViewById(R.id.drawerLayout)
 
@@ -89,11 +94,6 @@ class DecisionActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.profile -> {
-                val intent = Intent(this, ProfileActivity::class.java)
-                intent.putExtra("User", user)
-                startActivity(intent)
-            }
             R.id.tickets -> {
                 val intent = Intent(this, TicketsActivity::class.java)
                 intent.putExtra("User", user)

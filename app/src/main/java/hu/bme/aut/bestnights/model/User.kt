@@ -12,6 +12,6 @@ data class User (
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "email") var email: String,
     @ColumnInfo(name = "password") var password: String,
-    @ColumnInfo(name = "festivals") var festivals: List<String?>?,
-    @ColumnInfo(name = "parties") var parties: List<String?>?
+    @ColumnInfo(name = "festivals") var festivals: ArrayList<String?>?,
+    @ColumnInfo(name = "parties") var parties: ArrayList<String?>?
 ): Serializable

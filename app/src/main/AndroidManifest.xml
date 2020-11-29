@@ -9,13 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".TicketsActivity" />
         <activity android:name=".FestivalListActivity" />
         <activity android:name=".PartyListActivity" />
         <activity android:name=".PartyListActivityAdmin" />
         <activity android:name=".FestivalListActivityAdmin" />
-        <activity android:name=".ListActivity" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/SplashTheme">

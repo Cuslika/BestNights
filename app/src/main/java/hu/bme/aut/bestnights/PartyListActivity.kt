@@ -1,12 +1,11 @@
 package hu.bme.aut.bestnights
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -14,40 +13,44 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
-import hu.bme.aut.bestnights.adapter.AdminPartyAdapter
+import hu.bme.aut.bestnights.adapter.party.PartyAdapter
 import hu.bme.aut.bestnights.data.PartyDatabase
-import hu.bme.aut.bestnights.fragments.party.NewPartyDialogFragment
+import hu.bme.aut.bestnights.data.UserDatabase
+import hu.bme.aut.bestnights.fragments.party.ShowPartyDialogFragment
 import hu.bme.aut.bestnights.model.Party
 import hu.bme.aut.bestnights.model.User
-import kotlinx.android.synthetic.main.activity_party_list.*
-import kotlinx.android.synthetic.main.content_party_list_admin.*
+import kotlinx.android.synthetic.main.activity_festival_list.*
+import kotlinx.android.synthetic.main.content_festival_list.*
 import kotlin.concurrent.thread
 
-class PartyListActivity : AppCompatActivity(), AdminPartyAdapter.PartyClickListener,  NavigationView.OnNavigationItemSelectedListener {
+class PartyListActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelectedListener,
+    ShowPartyDialogFragment.PurchasePartyDialogListener {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapterAdmin: AdminPartyAdapter
+    private lateinit var adapter: PartyAdapter
     private lateinit var database: PartyDatabase
+    private lateinit var userDatabase: UserDatabase
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
 
+    private lateinit var user: User
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_party_list)
+        setContentView(R.layout.activity_festival_list)
 
         setTitle("Upcoming parties")
 
-        val user = intent.getSerializableExtra("User") as User
-
+        user = intent.getSerializableExtra("User") as User
 
         var nv: NavigationView = findViewById(R.id.navView)
         var nh: View = nv.getHeaderView(0)
         var ntv: TextView = nh.findViewById(R.id.yourName)
         ntv.setText(user.name)
 
-        drawer = findViewById(R.id.ppdrawerLayout)
+        drawer = findViewById(R.id.fdrawerLayout)
 
-        toggle = ActionBarDrawerToggle(this, ppdrawerLayout, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, fdrawerLayout, R.string.open, R.string.close)
         drawer.addDrawerListener(toggle)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -59,34 +62,42 @@ class PartyListActivity : AppCompatActivity(), AdminPartyAdapter.PartyClickListe
         database =
             Room.databaseBuilder(applicationContext, PartyDatabase::class.java, "party-list")
                 .build()
+        userDatabase = Room.databaseBuilder(applicationContext, UserDatabase::class.java, "user-list").build()
         initRecyclerView()
     }
 
     private fun initRecyclerView() {
-        recyclerView = PAdminRecyclerView
-        adapterAdmin = AdminPartyAdapter(this, supportFragmentManager)
+        recyclerView = FRecyclerView
+        adapter = PartyAdapter(supportFragmentManager)
         loadItemsInBackground()
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapterAdmin
+        recyclerView.adapter = adapter
     }
 
     private fun loadItemsInBackground() {
         thread {
             val items = database.partyDao().getAll()
             runOnUiThread {
-                adapterAdmin.update(items)
+                adapter.update(items)
             }
         }
     }
 
-    override fun onItemDeleted(item: Party) {
+    override fun onPartyPurchased(party: Party) {
         thread {
-            database.partyDao().deleteParty(item)
+            database.partyDao().update(party)
+            userDatabase.userDao().update(user)
             runOnUiThread {
-                adapterAdmin.removeItem(item)
+                adapter.purchaseParty(party)
+                if(user.parties.isNullOrEmpty()){
+                    var stringList = ArrayList<String?>()
+                    stringList.add(party.name)
+                    user.parties = stringList
+                } else {
+                    user.parties?.add(party.name)
+                }
             }
-            Log.d("Debug", "Party delete was successful")
-        }
+        }.start()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -103,8 +114,16 @@ class PartyListActivity : AppCompatActivity(), AdminPartyAdapter.PartyClickListe
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.profile -> Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
-            R.id.tickets -> Toast.makeText(this, "Tickets", Toast.LENGTH_SHORT).show()
+            R.id.tickets -> {
+                val intent = Intent(this, TicketsActivity::class.java)
+                intent.putExtra("User", user)
+                startActivity(intent)
+            }
+            R.id.logout -> {
+                val intent = Intent(this, LoginActivity::class.java)
+                finish()
+                startActivity(intent)
+            }
         }
         drawer.closeDrawer(GravityCompat.START)
         return true

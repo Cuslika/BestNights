@@ -1,11 +1,12 @@
 package hu.bme.aut.bestnights
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -13,21 +14,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
-import hu.bme.aut.bestnights.adapter.FestivalAdapter
+import hu.bme.aut.bestnights.adapter.festival.FestivalAdapter
 import hu.bme.aut.bestnights.data.FestivalDatabase
-import hu.bme.aut.bestnights.fragments.festival.NewFestivalDialogFragment
+import hu.bme.aut.bestnights.data.UserDatabase
+import hu.bme.aut.bestnights.fragments.festival.ShowFestivalDialogFragment
 import hu.bme.aut.bestnights.model.Festival
 import hu.bme.aut.bestnights.model.User
 import kotlinx.android.synthetic.main.activity_festival_list.*
-import kotlinx.android.synthetic.main.content_festival_list_admin.*
+import kotlinx.android.synthetic.main.content_festival_list.*
+import kotlin.concurrent.thread
 
-class FestivalListActivity : AppCompatActivity(), FestivalAdapter.FestivalClickListener, NewFestivalDialogFragment.NewFestivalDialogListener, NavigationView.OnNavigationItemSelectedListener {
+class FestivalListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, ShowFestivalDialogFragment.PurchaseFestivalDialogListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FestivalAdapter
     private lateinit var database: FestivalDatabase
+    private lateinit var userDatabase: UserDatabase
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
+
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +41,7 @@ class FestivalListActivity : AppCompatActivity(), FestivalAdapter.FestivalClickL
 
         setTitle("Upcoming festivals")
 
-        val user = intent.getSerializableExtra("User") as User
+        user = intent.getSerializableExtra("User") as User
 
 
         var nv: NavigationView = findViewById(R.id.navView)
@@ -57,20 +63,21 @@ class FestivalListActivity : AppCompatActivity(), FestivalAdapter.FestivalClickL
         database =
             Room.databaseBuilder(applicationContext, FestivalDatabase::class.java, "festival-list")
                 .build()
+        userDatabase = Room.databaseBuilder(applicationContext, UserDatabase::class.java, "user-list").build()
         initRecyclerView()
 
     }
 
     private fun initRecyclerView() {
-        recyclerView = FAdminRecyclerView
-        adapter = FestivalAdapter(this, supportFragmentManager)
-        //loadItemsInBackground()
+        recyclerView = FRecyclerView
+        adapter = FestivalAdapter(supportFragmentManager)
+        loadItemsInBackground()
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
     }
 
-    /*private fun loadItemsInBackground() {
-        thread {
+    private fun loadItemsInBackground() {
+        thread{
             val items = database.festivalDao().getAll()
             runOnUiThread {
                 adapter.update(items)
@@ -78,28 +85,23 @@ class FestivalListActivity : AppCompatActivity(), FestivalAdapter.FestivalClickL
         }
     }
 
-    override fun onItemDeleted(item: Festival) {
+    override fun onFestivalPurchased(festival: Festival) {
         thread {
-            database.festivalDao().deleteFestival(item)
+            userDatabase.userDao().update(user)
+            database.festivalDao().update(festival)
             runOnUiThread {
-                adapter.removeItem(item)
+                adapter.purchaseFestival(festival)
+                if(user.festivals.isNullOrEmpty()){
+                    val stringList = ArrayList<String?>()
+                    stringList.add(festival.name)
+                    user.festivals = stringList
+                } else {
+                    user.festivals?.add(festival.name)
+                }
             }
-            Log.d("Debug", "Festival delete was successful")
         }
-    }*/
-
-    override fun onFestivalCreated(newFestival: Festival) {
-        /*thread {
-            val newId = database.festivalDao().insert(newFestival)
-            val newF = newFestival.copy(
-                id = newId
-            )
-            runOnUiThread {
-                adapter.addFestival(newF)
-            }
-        }*/
     }
-/*
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         toggle.syncState()
@@ -110,12 +112,21 @@ class FestivalListActivity : AppCompatActivity(), FestivalAdapter.FestivalClickL
             return true
         }
         return super.onOptionsItemSelected(item)
-    }*/
+    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.profile -> Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
-            R.id.tickets -> Toast.makeText(this, "Tickets", Toast.LENGTH_SHORT).show()
+            R.id.tickets -> {
+                val intent = Intent(this, TicketsActivity::class.java)
+                intent.putExtra("User", user)
+                finish()
+                startActivity(intent)
+            }
+            R.id.logout -> {
+                val intent = Intent(this, LoginActivity::class.java)
+                finish()
+                startActivity(intent)
+            }
         }
         drawer.closeDrawer(GravityCompat.START)
         return true

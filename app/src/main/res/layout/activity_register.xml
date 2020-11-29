@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@color/background">
 
 
     <LinearLayout
@@ -18,9 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:text="REGISTER"
+            android:text="@string/register"
+            android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"/>
+            android:textSize="30sp"/>
     </LinearLayout>
 
 
@@ -93,12 +94,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:padding="10dp"
-            android:text="Already Have an Account?  Sign in"
+            android:padding="10sp"
+            android:text="Already Have an Account?  Log in"
             android:textAllCaps="true"
-            android:textSize="13dp"
+            android:textColor="@color/rlbutton"
+            android:textSize="17sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
             android:fontFamily="sans-serif"/>
 
     </LinearLayout>

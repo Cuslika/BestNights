@@ -11,7 +11,7 @@ interface PartyDao {
     @Insert
     fun insert(party: Party): Long
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(party: Party)
 
     @Delete

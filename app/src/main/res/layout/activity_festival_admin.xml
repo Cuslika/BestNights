@@ -3,21 +3,23 @@
     android:id="@+id/fadrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background">
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_drawer_menu"
+        app:menu="@menu/nav_drawer_admin_menu"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:background="@color/colorPrimary"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
         <include layout="@layout/content_festival_list_admin" />
 

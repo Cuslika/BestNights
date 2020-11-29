@@ -1,7 +1,10 @@
 package hu.bme.aut.bestnights.data
 
 import androidx.room.*
+import hu.bme.aut.bestnights.model.Festival
+import hu.bme.aut.bestnights.model.Party
 import hu.bme.aut.bestnights.model.User
+import java.util.ArrayList
 
 @Dao
 interface UserDao {
@@ -15,10 +18,10 @@ interface UserDao {
     @Insert
     fun insert(user: User): Long
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(user: User)
 
     @Delete
-    fun deleteFestival(user: User)
+    fun deleteUser(user: User)
 
 }

@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.DatePicker
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import hu.bme.aut.bestnights.R
@@ -25,6 +26,7 @@ class EditPartyDialogFragment(party: Party): DialogFragment() {
     private lateinit var pa : EditText
     private lateinit var pc : EditText
     private lateinit var pl : EditText
+    private lateinit var pd : DatePicker
 
     private var p: Party = party
 
@@ -35,7 +37,7 @@ class EditPartyDialogFragment(party: Party): DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext())
+        return AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
             .setTitle(R.string.edit_festival)
             .setView(getContentView())
             .setPositiveButton(R.string.ok) { dialogInterface, i ->
@@ -49,6 +51,7 @@ class EditPartyDialogFragment(party: Party): DialogFragment() {
         p.name = pn.text.toString()
         p.price = pp.text.toString().toInt()
         p.amount = pa.text.toString().toInt()
+        p.date = (pd.year.toString() + "/" + pd.month.toString() + "/" + pd.dayOfMonth.toString())
 
         return p
     }
@@ -60,10 +63,14 @@ class EditPartyDialogFragment(party: Party): DialogFragment() {
         pa = contentView.findViewById(R.id.PartyAmount)
         pc = contentView.findViewById(R.id.PartyPrice)
         pl = contentView.findViewById(R.id.PartyLocation)
+        pd = contentView.findViewById(R.id.PartyDate)
 
         pn.setText(p.name)
         pp.setText(p.price.toString())
         pa.setText(p.amount.toString())
+
+        val temps = p.date.split("/")
+        pd.updateDate(temps[0].toInt(), temps[1].toInt(), temps[2].toInt())
 
         return contentView
     }

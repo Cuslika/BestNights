@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,15 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
-import hu.bme.aut.bestnights.adapter.AdminPartyAdapter
+import hu.bme.aut.bestnights.adapter.party.AdminPartyAdapter
 import hu.bme.aut.bestnights.data.PartyDatabase
-import hu.bme.aut.bestnights.fragments.festival.EditFestivalDialogFragment
 import hu.bme.aut.bestnights.fragments.party.EditPartyDialogFragment
 import hu.bme.aut.bestnights.fragments.party.NewPartyDialogFragment
 import hu.bme.aut.bestnights.model.Party
 import hu.bme.aut.bestnights.model.User
-import kotlinx.android.synthetic.main.activity_party_admin.*
-import kotlinx.android.synthetic.main.content_party_list_admin.*
+import kotlinx.android.synthetic.main.activity_festival_admin.*
+import kotlinx.android.synthetic.main.content_festival_list_admin.*
 import kotlin.concurrent.thread
 
 class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClickListener, NewPartyDialogFragment.NewPartyDialogListener, EditPartyDialogFragment.EditPartyDialogListener, NavigationView.OnNavigationItemSelectedListener {
@@ -38,13 +36,13 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_party_admin)
+        setContentView(R.layout.activity_festival_admin)
 
         setTitle("Upcoming parties")
 
         user = intent.getSerializableExtra("User") as User
 
-        paddm.setOnClickListener {
+        faddm.setOnClickListener {
             NewPartyDialogFragment().show(
                 supportFragmentManager,
                 NewPartyDialogFragment.TAG
@@ -56,9 +54,9 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
         var ntv: TextView = nh.findViewById(R.id.yourName)
         ntv.setText(user.name)
 
-        drawer = findViewById(R.id.pdrawerLayout)
+        drawer = findViewById(R.id.fadrawerLayout)
 
-        toggle = ActionBarDrawerToggle(this, pdrawerLayout, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, fadrawerLayout, R.string.open, R.string.close)
         drawer.addDrawerListener(toggle)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -74,7 +72,7 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
     }
 
     private fun initRecyclerView() {
-        recyclerView = PAdminRecyclerView
+        recyclerView = FAdminRecyclerView
         adapterAdmin = AdminPartyAdapter(this, supportFragmentManager)
         loadItemsInBackground()
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -135,16 +133,6 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.profile -> {
-                val intent = Intent(this, ProfileActivity::class.java)
-                intent.putExtra("User", user)
-                startActivity(intent)
-            }
-            R.id.tickets -> {
-                val intent = Intent(this, TicketsActivity::class.java)
-                intent.putExtra("User", user)
-                startActivity(intent)
-            }
             R.id.logout -> {
                 val intent = Intent(this, LoginActivity::class.java)
                 finish()

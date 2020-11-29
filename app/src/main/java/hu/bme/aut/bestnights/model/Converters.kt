@@ -19,12 +19,12 @@ class Converters {
         }
 
         @TypeConverter
-        fun restoreStringList(stringList: String?): List<String?>? {
-            return Gson().fromJson(stringList, object : TypeToken<List<String?>?>() {}.getType())
+        fun restoreStringList(stringList: String?): ArrayList<String?>? {
+            return Gson().fromJson(stringList, object : TypeToken<ArrayList<String?>?>() {}.getType())
         }
 
         @TypeConverter
-        fun saveStringList(stringList: List<String?>?): String? {
+        fun saveStringList(stringList: ArrayList<String?>?): String? {
             return Gson().toJson(stringList)
         }
 

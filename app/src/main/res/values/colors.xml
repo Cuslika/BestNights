@@ -2,6 +2,11 @@
 <resources>
     <color name="colorPrimary">#48474A</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#1E4AA1</color>
+    <color name="colorAccent">#290047</color>
     <color name="white">#ffffff</color>
+    <color name="listItem">#3E3645</color>
+    <color name="background">#1C1225</color>
+    <color name="dialogBackground">#5E4075</color>
+    <color name="dialogTitle">#140E19</color>
+    <color name="rlbutton">#971248</color>
 </resources>

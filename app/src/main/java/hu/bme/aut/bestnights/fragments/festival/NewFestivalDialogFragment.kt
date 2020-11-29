@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import hu.bme.aut.bestnights.R
 import hu.bme.aut.bestnights.model.Festival
@@ -20,56 +21,61 @@ class NewFestivalDialogFragment : DialogFragment() {
     private lateinit var listener: NewFestivalDialogListener
 
     private lateinit var fn : EditText
-    private lateinit var fep : EditText
     private lateinit var fnp : EditText
-    private lateinit var fea : EditText
     private lateinit var fna : EditText
     private lateinit var fl : EditText
 
+    private lateinit var c: Context
+
     private fun isValid(): Boolean {
         return fn.text.isNotEmpty() &&
-                fep.text.isNotEmpty() &&
-                fnp.text.isNotEmpty()
-                //fea.text.isNotEmpty() &&
-                //fna.text.isNotEmpty() &&
+                fnp.text.isNotEmpty() &&
+                fna.text.isNotEmpty()
                 //fl.text.isNotEmpty()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        c = context
         listener = context as? NewFestivalDialogListener
             ?: throw RuntimeException("Activity must implement the NewPartyDialogListener interface!")
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.new_festival)
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
+            .setTitle(R.string.new_party)
             .setView(getContentView())
-            .setPositiveButton(R.string.ok) { dialogInterface, i ->
-                if (isValid()) {
-                    listener.onFestivalCreated(getFestival())
-                }
-            }
+            .setPositiveButton(R.string.ok, null)
             .setNegativeButton(R.string.cancel, null)
             .create()
+
+        dialog.setOnShowListener {
+            val okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            okButton.setOnClickListener {
+                if (isValid()) {
+                    listener.onFestivalCreated(getFestival())
+                    dismiss()
+                } else {
+                    Toast.makeText(c, "Please fill all of the data", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        return dialog
     }
 
     private fun getFestival() = Festival(
         id = null,
         name = fn.text.toString(),
-        earlybirdPrice = fep.text.toString().toInt()
-        //normalPrice = fnp.text.toString().toInt(),
-        //earlybirdAmount = fea.text.toString().toInt(),
-        //normalAmount = fna.text.toString().toInt(),
+        normalPrice = fnp.text.toString().toInt(),
+        normalAmount = fna.text.toString().toInt()
         //location = fl.text.toString()
     )
 
     private fun getContentView(): View {
         val contentView = LayoutInflater.from(context).inflate(R.layout.dialog_new_festival, null)
         fn = contentView.findViewById(R.id.FestivalName)
-        fep = contentView.findViewById(R.id.FestivalEarlyPrice)
         fnp = contentView.findViewById(R.id.FestivalNormalPrice)
-        fea = contentView.findViewById(R.id.FestivalEarlyAmount)
         fna = contentView.findViewById(R.id.FestivalNormalAmount)
         fl = contentView.findViewById(R.id.FestivalLocation)
 

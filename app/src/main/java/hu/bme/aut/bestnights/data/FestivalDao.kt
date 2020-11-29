@@ -11,7 +11,7 @@ interface FestivalDao {
     @Insert
     fun insert(festival: Festival): Long
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(festival: Festival)
 
     @Delete

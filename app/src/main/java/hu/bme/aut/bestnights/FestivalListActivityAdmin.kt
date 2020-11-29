@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
-import hu.bme.aut.bestnights.adapter.AdminFestivalAdapter
+import hu.bme.aut.bestnights.adapter.festival.AdminFestivalAdapter
 import hu.bme.aut.bestnights.data.FestivalDatabase
 import hu.bme.aut.bestnights.fragments.festival.EditFestivalDialogFragment
 import hu.bme.aut.bestnights.fragments.festival.NewFestivalDialogFragment
@@ -134,16 +134,6 @@ class FestivalListActivityAdmin : AppCompatActivity(), AdminFestivalAdapter.Admi
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.profile -> {
-                val intent = Intent(this, ProfileActivity::class.java)
-                intent.putExtra("User", user)
-                startActivity(intent)
-            }
-            R.id.tickets -> {
-                val intent = Intent(this, TicketsActivity::class.java)
-                intent.putExtra("User", user)
-                startActivity(intent)
-            }
             R.id.logout -> {
                 val intent = Intent(this, LoginActivity::class.java)
                 finish()

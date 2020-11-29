@@ -16,4 +16,14 @@
     <string name="normalamount">Number of normal tickets</string>
     <string name="new_festival">New festival</string>
     <string name="edit_festival">Edit festival</string>
+    <string name="eventdate">Event date:</string>
+    <string name="purchase">Purchase</string>
+    <string name="purchasedParties">Purchased party tickets:</string>
+    <string name="purchasedFestivals">Purchased festival tickets:</string>
+    <string name="show_party">The details of the party</string>
+    <string name="show_festival">The details of the festival</string>
+    <string name="back">Back</string>
+    <string name="loginRow">Dive in to the NIGHT!</string>
+    <string name="logIn">Log IN</string>
+    <string name="register">Sign UP</string>
 </resources>

@@ -20,12 +20,10 @@ class EditFestivalDialogFragment(festival: Festival) : DialogFragment() {
 
     private lateinit var listener: EditFestivalDialogListener
 
-    private lateinit var efn : EditText
-    private lateinit var efep : EditText
-    private lateinit var efnp : EditText
-    private lateinit var efea : EditText
-    private lateinit var efna : EditText
-    private lateinit var efl : EditText
+    private lateinit var fn : EditText
+    private lateinit var fp : EditText
+    private lateinit var fna : EditText
+    private lateinit var fl : EditText
 
     private var f: Festival = festival
 
@@ -36,7 +34,7 @@ class EditFestivalDialogFragment(festival: Festival) : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext())
+        return AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
             .setTitle(R.string.edit_festival)
             .setView(getContentView())
             .setPositiveButton(R.string.ok) { dialogInterface, i ->
@@ -47,29 +45,24 @@ class EditFestivalDialogFragment(festival: Festival) : DialogFragment() {
     }
 
     private fun getFestival(): Festival {
-        f.name = efn.text.toString()
-        f.earlybirdPrice = efep.text.toString().toInt()
+        f.name = fn.text.toString()
+        f.normalPrice = fp.text.toString().toInt()
+        f.normalAmount = fna.text.toString().toInt()
 
         return f
     }
 
     private fun getContentView(): View {
         val contentView = LayoutInflater.from(context).inflate(R.layout.dialog_new_festival, null)
-        efn = contentView.findViewById(R.id.FestivalName)
-        efep = contentView.findViewById(R.id.FestivalEarlyPrice)
-        efnp = contentView.findViewById(R.id.FestivalNormalPrice)
-        efea = contentView.findViewById(R.id.FestivalEarlyAmount)
-        efna = contentView.findViewById(R.id.FestivalNormalAmount)
-        efl = contentView.findViewById(R.id.FestivalLocation)
+        fn = contentView.findViewById(R.id.FestivalName)
+        fp = contentView.findViewById(R.id.FestivalNormalPrice)
+        fna = contentView.findViewById(R.id.FestivalNormalAmount)
+        //efl = contentView.findViewById(R.id.FestivalLocation)
 
-        efn.setText(f.name)
-        efep.setText(f.earlybirdPrice.toString())
-        //efep.setHint(f.normalPrice)
-        //efep.setHint(f.earlybirdAmount)
-        //efep.setHint(f.normalAmount)
-        //efep.setHint(f.location)
-        //efep.setHint(f.)
-        //efep.setHint(f.)
+        fn.setText(f.name)
+        fp.setText(f.normalPrice.toString())
+        fna.setText(f.normalAmount.toString())
+
 
         return contentView
     }

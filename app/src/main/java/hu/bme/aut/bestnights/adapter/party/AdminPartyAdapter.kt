@@ -14,15 +14,15 @@ import hu.bme.aut.bestnights.fragments.party.EditPartyDialogFragment
 import hu.bme.aut.bestnights.model.Festival
 import hu.bme.aut.bestnights.model.Party
 
-class AdminPartyAdapter(private val listener: PartyClickListener, private val supportFragmentManager: FragmentManager) : RecyclerView.Adapter<AdminPartyAdapter.PartyViewHolder>() {
+class AdminPartyAdapter(private val listener: PartyClickListener, private val supportFragmentManager: FragmentManager) : RecyclerView.Adapter<AdminPartyAdapter.AdminPartyViewHolder>() {
 
     private val parties = mutableListOf<Party>()
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PartyViewHolder{
-        val PartyView: View = LayoutInflater.from(parent.context).inflate(R.layout.party_list_admin, parent, false)
-        return PartyViewHolder(PartyView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminPartyViewHolder{
+        val PartyView: View = LayoutInflater.from(parent.context).inflate(R.layout.festival_list_admin, parent, false)
+        return AdminPartyViewHolder(PartyView)
     }
 
-    override fun onBindViewHolder(holder: PartyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AdminPartyViewHolder, position: Int) {
         val party = parties[position]
         holder.nameTextView.text = party.name
 
@@ -37,7 +37,7 @@ class AdminPartyAdapter(private val listener: PartyClickListener, private val su
         fun onItemDeleted(item: Party)
     }
 
-    inner class PartyViewHolder(partyView: View) : RecyclerView.ViewHolder(partyView){
+    inner class AdminPartyViewHolder(partyView: View) : RecyclerView.ViewHolder(partyView){
         val nameTextView: TextView
         val editButton: ImageButton
         val removeButton: ImageButton
@@ -45,8 +45,8 @@ class AdminPartyAdapter(private val listener: PartyClickListener, private val su
         var party: Party? = null
 
         init {
-            nameTextView = partyView.findViewById(R.id.PEventName)
-            editButton = partyView.findViewById(R.id.PEditButton)
+            nameTextView = partyView.findViewById(R.id.eventName)
+            editButton = partyView.findViewById(R.id.EditButton)
             editButton.setOnClickListener {
                 party?.let { it1 ->
                     EditPartyDialogFragment(it1).show(
@@ -55,7 +55,7 @@ class AdminPartyAdapter(private val listener: PartyClickListener, private val su
                     )
                 }
             }
-            removeButton = partyView.findViewById(R.id.PRemoveButton)
+            removeButton = partyView.findViewById(R.id.RemoveButton)
             removeButton.setOnClickListener {
                 party?.let { it -> removeItem(it)
                     listener.onItemDeleted(it)}
