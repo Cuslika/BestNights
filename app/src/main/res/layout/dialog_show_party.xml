@@ -62,23 +62,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dip"
         android:textColor="@color/white"
-        android:text="@string/eventcapacity"/>
-
-    <TextView
-        android:id="@+id/PartyCapacity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:text="@string/eventcapacity"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dip"
-        android:textColor="@color/white"
         android:text="@string/eventlocation"/>
 
     <TextView

@@ -25,7 +25,8 @@ class ShowFestivalDialogFragment(festival: Festival) : DialogFragment(){
     private lateinit var pp : TextView
     private lateinit var pa : TextView
     private lateinit var pl : TextView
-    //private lateinit var pd : TextView
+    private lateinit var psd : TextView
+    private lateinit var ped : TextView
 
     private var f: Festival = festival
 
@@ -52,10 +53,14 @@ class ShowFestivalDialogFragment(festival: Festival) : DialogFragment(){
         pp = contentView.findViewById(R.id.FestivalPrice)
         pa = contentView.findViewById(R.id.FestivalAmount)
         pl = contentView.findViewById(R.id.FestivalLocation)
+        psd =contentView.findViewById(R.id.StartDate)
+        ped =contentView.findViewById(R.id.EndDate)
         pn.setText(f.name)
         pp.setText(f.normalPrice.toString())
         pa.setText(f.normalAmount.toString())
-        //pd.setText(f.date)
+        pl.setText(f.location)
+        psd.setText(f.startDate)
+        ped.setText(f.endDate)
 
         return contentView
     }

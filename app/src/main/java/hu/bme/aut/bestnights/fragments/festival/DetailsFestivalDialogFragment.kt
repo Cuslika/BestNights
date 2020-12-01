@@ -36,7 +36,7 @@ class DetailsFestivalDialogFragment(festival: Festival) : DialogFragment() {
         pa = contentView.findViewById(R.id.FestivalAmount)
         pl = contentView.findViewById(R.id.FestivalLocation)
         psd = contentView.findViewById(R.id.StartDate)
-        psd = contentView.findViewById(R.id.EndDate)
+        ped = contentView.findViewById(R.id.EndDate)
         pn.setText(f.name)
         pp.setText(f.normalPrice.toString())
         pa.setText("1")

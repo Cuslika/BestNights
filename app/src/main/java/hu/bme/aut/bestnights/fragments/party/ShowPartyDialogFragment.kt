@@ -24,7 +24,6 @@ class ShowPartyDialogFragment(party: Party): DialogFragment() {
     private lateinit var pn : TextView
     private lateinit var pp : TextView
     private lateinit var pa : TextView
-    private lateinit var pc : TextView
     private lateinit var pl : TextView
     private lateinit var pd : TextView
 
@@ -52,13 +51,13 @@ class ShowPartyDialogFragment(party: Party): DialogFragment() {
         pn = contentView.findViewById(R.id.PartyName)
         pp = contentView.findViewById(R.id.PartyPrice)
         pa = contentView.findViewById(R.id.PartyAmount)
-        pc = contentView.findViewById(R.id.PartyPrice)
         pl = contentView.findViewById(R.id.PartyLocation)
         pd = contentView.findViewById(R.id.PartyDate)
 
         pn.setText(p.name)
         pp.setText(p.price.toString())
         pa.setText(p.amount.toString())
+        pl.setText(p.location)
         pd.setText(p.date)
 
         return contentView

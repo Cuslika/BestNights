@@ -89,23 +89,17 @@ class FestivalListActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         thread {
             runOnUiThread {
                 adapter.purchaseFestival(festival)
-                Log.d("Debug", "Festival list" + user.festivals.isNullOrEmpty().toString())
                 if(user.festivals.isNullOrEmpty()){
                     val stringList = ArrayList<String?>()
                     stringList.add(festival.name)
                     user.festivals = stringList
-                    Log.d("Debug","festivals after: " + user.festivals.toString())
                 } else {
-                    Log.d("Debug","festivals before: " + user.festivals.toString())
                     user.festivals?.add(festival.name)
-                    Log.d("Debug","festivals after: " + user.festivals.toString())
                 }
             }
             userDatabase.userDao().update(user)
-            Log.d("Debug","festivals outside: " + user.festivals.toString())
             database.festivalDao().update(festival)
         }
-        Log.d("Debug","festivals outside thread: " + user.festivals.toString())
     }
 
     override fun onBackPressed() {

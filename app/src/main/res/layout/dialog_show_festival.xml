@@ -79,16 +79,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dip"
         android:textColor="@color/white"
-        android:text="@string/eventdate"/>
+        android:text="@string/startdate"/>
 
     <TextView
-        android:id="@+id/FestivalDate"
+        android:id="@+id/StartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:text="@string/eventdate"/>
+        android:text="2020/01/01"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dip"
+        android:textColor="@color/white"
+        android:text="@string/enddate"/>
+
+    <TextView
+        android:id="@+id/EndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="2020/01/01"/>
 
 </LinearLayout>

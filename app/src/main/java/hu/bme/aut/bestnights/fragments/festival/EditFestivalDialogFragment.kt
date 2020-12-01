@@ -76,7 +76,7 @@ class EditFestivalDialogFragment(festival: Festival) : DialogFragment() {
         val temps = f.startDate.split("/")
         fsd.init(temps[0].toInt(), temps[1].toInt(), temps[2].toInt(), null)
         val tempe = f.endDate.split("/")
-        fsd.init(tempe[0].toInt(), tempe[1].toInt(), tempe[2].toInt(), null)
+        fed.init(tempe[0].toInt(), tempe[1].toInt(), tempe[2].toInt(), null)
 
         return contentView
     }

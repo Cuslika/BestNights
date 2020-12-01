@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.room.Room
 import hu.bme.aut.bestnights.data.UserDao
 import hu.bme.aut.bestnights.data.UserDatabase
+import hu.bme.aut.bestnights.model.User
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -21,6 +22,18 @@ class LoginActivity : AppCompatActivity() {
 
         database = Room.databaseBuilder(applicationContext, UserDatabase::class.java, "user-list").allowMainThreadQueries().build()
         db = database.userDao()
+
+        var b = false
+        for(user: User in db.getUsers()) {
+            if(user.name == "admin"){
+                b = true
+            }
+        }
+
+        if(!b){
+            val admin = User(null, "admin", "admin", "admin", null, null)
+            db.insert(admin)
+        }
 
         btnLogin.setOnClickListener {
 
