@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -24,14 +25,16 @@ class NewFestivalDialogFragment : DialogFragment() {
     private lateinit var fnp : EditText
     private lateinit var fna : EditText
     private lateinit var fl : EditText
+    private lateinit var fsd : DatePicker
+    private lateinit var fed : DatePicker
 
     private lateinit var c: Context
 
     private fun isValid(): Boolean {
         return fn.text.isNotEmpty() &&
                 fnp.text.isNotEmpty() &&
-                fna.text.isNotEmpty()
-                //fl.text.isNotEmpty()
+                fna.text.isNotEmpty() &&
+                fl.text.isNotEmpty()
     }
 
     override fun onAttach(context: Context) {
@@ -68,8 +71,10 @@ class NewFestivalDialogFragment : DialogFragment() {
         id = null,
         name = fn.text.toString(),
         normalPrice = fnp.text.toString().toInt(),
-        normalAmount = fna.text.toString().toInt()
-        //location = fl.text.toString()
+        normalAmount = fna.text.toString().toInt(),
+        location = fl.text.toString(),
+        startDate = (fsd.year.toString() + "/" + fsd.month.toString() + "/" + fsd.dayOfMonth.toString()),
+        endDate = (fed.year.toString() + "/" + fed.month.toString() + "/" + fed.dayOfMonth.toString())
     )
 
     private fun getContentView(): View {
@@ -78,6 +83,8 @@ class NewFestivalDialogFragment : DialogFragment() {
         fnp = contentView.findViewById(R.id.FestivalNormalPrice)
         fna = contentView.findViewById(R.id.FestivalNormalAmount)
         fl = contentView.findViewById(R.id.FestivalLocation)
+        fsd = contentView.findViewById(R.id.StartDate)
+        fed = contentView.findViewById(R.id.EndDate)
 
         return contentView
     }

@@ -24,7 +24,6 @@ class NewPartyDialogFragment : DialogFragment() {
     private lateinit var pn : EditText
     private lateinit var pp : EditText
     private lateinit var pa : EditText
-    private lateinit var pc : EditText
     private lateinit var pl : EditText
     private lateinit var pd : DatePicker
 
@@ -32,10 +31,9 @@ class NewPartyDialogFragment : DialogFragment() {
 
     private fun isValid(): Boolean {
         return pn.text.isNotEmpty() &&
-                pp.text.isNotEmpty()
-                //pa.text.isNotEmpty()
-                //pc.text.isNotEmpty() &&
-                //pl.text.isNotEmpty()
+                pp.text.isNotEmpty() &&
+                pa.text.isNotEmpty() &&
+                pl.text.isNotEmpty()
     }
 
     override fun onAttach(context: Context) {
@@ -73,7 +71,7 @@ class NewPartyDialogFragment : DialogFragment() {
         name = pn.text.toString(),
         price = pp.text.toString().toInt(),
         amount = pa.text.toString().toInt(),
-        //location = pl.text.toString()
+        location = pl.text.toString(),
         date = (pd.year.toString() + "/" + pd.month.toString() + "/" + pd.dayOfMonth.toString())
     )
 
@@ -82,7 +80,6 @@ class NewPartyDialogFragment : DialogFragment() {
         pn = contentView.findViewById(R.id.PartyName)
         pp = contentView.findViewById(R.id.PartyPrice)
         pa = contentView.findViewById(R.id.PartyAmount)
-        pc = contentView.findViewById(R.id.PartyPrice)
         pl = contentView.findViewById(R.id.PartyLocation)
         pd = contentView.findViewById(R.id.PartyDate)
 

@@ -3,6 +3,7 @@ package hu.bme.aut.bestnights
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -41,7 +42,7 @@ class DecisionActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         if(user.name.equals("admin")) {
             nv.menu.clear()
-            nv.inflateMenu(R.menu.nav_drawer_admin_menu)
+            nv.inflateMenu(R.menu.nav_drawer_admin_decision_menu)
         }
 
         drawer = findViewById(R.id.drawerLayout)
@@ -63,6 +64,7 @@ class DecisionActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             } else {
                 val intent = Intent(this, FestivalListActivity::class.java)
                 intent.putExtra("User", user)
+                finish()
                 startActivity(intent)
             }
         }
@@ -75,6 +77,7 @@ class DecisionActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             } else {
                 val intent = Intent(this, PartyListActivity::class.java)
                 intent.putExtra("User", user)
+                finish()
                 startActivity(intent)
             }
         }
@@ -90,6 +93,13 @@ class DecisionActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, LoginActivity::class.java)
+        finish()
+        startActivity(intent)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

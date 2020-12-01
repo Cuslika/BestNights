@@ -87,19 +87,33 @@ class FestivalListActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
     override fun onFestivalPurchased(festival: Festival) {
         thread {
-            userDatabase.userDao().update(user)
-            database.festivalDao().update(festival)
             runOnUiThread {
                 adapter.purchaseFestival(festival)
+                Log.d("Debug", "Festival list" + user.festivals.isNullOrEmpty().toString())
                 if(user.festivals.isNullOrEmpty()){
                     val stringList = ArrayList<String?>()
                     stringList.add(festival.name)
                     user.festivals = stringList
+                    Log.d("Debug","festivals after: " + user.festivals.toString())
                 } else {
+                    Log.d("Debug","festivals before: " + user.festivals.toString())
                     user.festivals?.add(festival.name)
+                    Log.d("Debug","festivals after: " + user.festivals.toString())
                 }
             }
+            userDatabase.userDao().update(user)
+            Log.d("Debug","festivals outside: " + user.festivals.toString())
+            database.festivalDao().update(festival)
         }
+        Log.d("Debug","festivals outside thread: " + user.festivals.toString())
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, DecisionActivity::class.java)
+        intent.putExtra("User", user)
+        finish()
+        startActivity(intent)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -116,15 +130,19 @@ class FestivalListActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.tickets -> {
-                val intent = Intent(this, TicketsActivity::class.java)
+            R.id.home -> {
+                val intent = Intent(this, DecisionActivity::class.java)
                 intent.putExtra("User", user)
                 finish()
                 startActivity(intent)
             }
+            R.id.tickets -> {
+                val intent = Intent(this, TicketsActivity::class.java)
+                intent.putExtra("User", user)
+                startActivity(intent)
+            }
             R.id.logout -> {
                 val intent = Intent(this, LoginActivity::class.java)
-                finish()
                 startActivity(intent)
             }
         }

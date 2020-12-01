@@ -1,9 +1,8 @@
-package hu.bme.aut.bestnights.adapter
+package hu.bme.aut.bestnights.adapter.party
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
@@ -11,13 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.bestnights.R
 import hu.bme.aut.bestnights.fragments.festival.EditFestivalDialogFragment
 import hu.bme.aut.bestnights.fragments.party.EditPartyDialogFragment
-import hu.bme.aut.bestnights.model.Festival
 import hu.bme.aut.bestnights.model.Party
 
 class AdminPartyAdapter(private val listener: PartyClickListener, private val supportFragmentManager: FragmentManager) : RecyclerView.Adapter<AdminPartyAdapter.AdminPartyViewHolder>() {
 
     private val parties = mutableListOf<Party>()
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminPartyViewHolder{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminPartyViewHolder {
         val PartyView: View = LayoutInflater.from(parent.context).inflate(R.layout.festival_list_admin, parent, false)
         return AdminPartyViewHolder(PartyView)
     }
@@ -60,6 +58,7 @@ class AdminPartyAdapter(private val listener: PartyClickListener, private val su
                 party?.let { it -> removeItem(it)
                     listener.onItemDeleted(it)}
             }
+
         }
     }
 

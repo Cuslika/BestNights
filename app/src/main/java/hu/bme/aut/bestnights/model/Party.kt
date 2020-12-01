@@ -12,6 +12,6 @@ data class Party (
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "price") var price: Int,
     @ColumnInfo(name = "amount") var amount: Int,
-    //@ColumnInfo(name = "location") var location: String,
+    @ColumnInfo(name = "location") var location: String,
     @ColumnInfo(name = "date") var date: String
 ) : Serializable

@@ -59,21 +59,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dip"
-            android:text="@string/eventcapacity"
-            android:textColor="@color/white"/>
-
-        <EditText
-            android:id="@+id/PartyCapacity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dip"
             android:text="@string/eventlocation"
             android:textColor="@color/white"/>
 
@@ -97,7 +82,8 @@
             android:layout_height="match_parent"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"
-            android:calendarTextColor="@color/white"/>
+            android:calendarTextColor="@color/white"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 </ScrollView>

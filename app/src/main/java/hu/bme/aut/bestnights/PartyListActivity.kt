@@ -97,7 +97,17 @@ class PartyListActivity : AppCompatActivity(),  NavigationView.OnNavigationItemS
                     user.parties?.add(party.name)
                 }
             }
-        }.start()
+            database.partyDao().update(party)
+            userDatabase.userDao().update(user)
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, DecisionActivity::class.java)
+        intent.putExtra("User", user)
+        finish()
+        startActivity(intent)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -114,6 +124,12 @@ class PartyListActivity : AppCompatActivity(),  NavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+            R.id.home -> {
+                val intent = Intent(this, DecisionActivity::class.java)
+                intent.putExtra("User", user)
+                finish()
+                startActivity(intent)
+            }
             R.id.tickets -> {
                 val intent = Intent(this, TicketsActivity::class.java)
                 intent.putExtra("User", user)

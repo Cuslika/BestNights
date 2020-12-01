@@ -133,6 +133,12 @@ class PartyListActivityAdmin : AppCompatActivity(), AdminPartyAdapter.PartyClick
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+            R.id.home -> {
+                val intent = Intent(this, DecisionActivity::class.java)
+                intent.putExtra("User", user)
+                finish()
+                startActivity(intent)
+            }
             R.id.logout -> {
                 val intent = Intent(this, LoginActivity::class.java)
                 finish()

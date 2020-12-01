@@ -12,6 +12,4 @@ import hu.bme.aut.bestnights.model.Festival
 @TypeConverters(Converters::class)
 abstract class FestivalDatabase : RoomDatabase() {
     abstract fun festivalDao(): FestivalDao
-
-
-}
+    }

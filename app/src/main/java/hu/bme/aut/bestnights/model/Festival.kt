@@ -11,8 +11,8 @@ data class Festival (
     @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) var id: Long?,
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "normalPrice") var normalPrice: Int,
-    @ColumnInfo(name = "normalAmount") var normalAmount: Int
-    //@ColumnInfo(name = "location") var location: String,
-    //@ColumnInfo(name = "startDate") var startDate: Date,
-    //@ColumnInfo(name = "endDate") var endDate: Date
+    @ColumnInfo(name = "normalAmount") var normalAmount: Int,
+    @ColumnInfo(name = "location") var location: String,
+    @ColumnInfo(name = "startDate") var startDate: String,
+    @ColumnInfo(name = "endDate") var endDate: String
 ) : Serializable

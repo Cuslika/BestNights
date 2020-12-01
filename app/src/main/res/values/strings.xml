@@ -26,4 +26,6 @@
     <string name="loginRow">Dive in to the NIGHT!</string>
     <string name="logIn">Log IN</string>
     <string name="register">Sign UP</string>
+    <string name="startdate">Start date of the festival:</string>
+    <string name="enddate">End date of the festival:</string>
 </resources>

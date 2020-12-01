@@ -64,4 +64,36 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dip"
+        android:text="@string/startdate"
+        android:textColor="@color/white"/>
+
+    <DatePicker
+        android:id="@+id/StartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"
+        android:calendarTextColor="@color/white"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dip"
+        android:text="@string/enddate"
+        android:textColor="@color/white"/>
+
+    <DatePicker
+        android:id="@+id/EndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"
+        android:calendarTextColor="@color/white"
+        android:layout_gravity="center"/>
+
 </LinearLayout>

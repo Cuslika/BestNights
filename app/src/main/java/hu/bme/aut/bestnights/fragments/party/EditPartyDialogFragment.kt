@@ -24,7 +24,6 @@ class EditPartyDialogFragment(party: Party): DialogFragment() {
     private lateinit var pn : EditText
     private lateinit var pp : EditText
     private lateinit var pa : EditText
-    private lateinit var pc : EditText
     private lateinit var pl : EditText
     private lateinit var pd : DatePicker
 
@@ -51,6 +50,7 @@ class EditPartyDialogFragment(party: Party): DialogFragment() {
         p.name = pn.text.toString()
         p.price = pp.text.toString().toInt()
         p.amount = pa.text.toString().toInt()
+        p.location = pl.text.toString()
         p.date = (pd.year.toString() + "/" + pd.month.toString() + "/" + pd.dayOfMonth.toString())
 
         return p
@@ -61,16 +61,16 @@ class EditPartyDialogFragment(party: Party): DialogFragment() {
         pn = contentView.findViewById(R.id.PartyName)
         pp = contentView.findViewById(R.id.PartyPrice)
         pa = contentView.findViewById(R.id.PartyAmount)
-        pc = contentView.findViewById(R.id.PartyPrice)
         pl = contentView.findViewById(R.id.PartyLocation)
         pd = contentView.findViewById(R.id.PartyDate)
 
         pn.setText(p.name)
         pp.setText(p.price.toString())
         pa.setText(p.amount.toString())
+        pl.setText(p.location)
 
         val temps = p.date.split("/")
-        pd.updateDate(temps[0].toInt(), temps[1].toInt(), temps[2].toInt())
+        pd.init(temps[0].toInt(), temps[1].toInt(), temps[2].toInt(), null)
 
         return contentView
     }

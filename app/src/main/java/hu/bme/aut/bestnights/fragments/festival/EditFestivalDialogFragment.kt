@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import hu.bme.aut.bestnights.R
 import hu.bme.aut.bestnights.model.Festival
@@ -23,7 +25,9 @@ class EditFestivalDialogFragment(festival: Festival) : DialogFragment() {
     private lateinit var fn : EditText
     private lateinit var fp : EditText
     private lateinit var fna : EditText
-    private lateinit var fl : EditText
+    private lateinit var fl : TextView
+    private lateinit var fsd : DatePicker
+    private lateinit var fed : DatePicker
 
     private var f: Festival = festival
 
@@ -48,6 +52,9 @@ class EditFestivalDialogFragment(festival: Festival) : DialogFragment() {
         f.name = fn.text.toString()
         f.normalPrice = fp.text.toString().toInt()
         f.normalAmount = fna.text.toString().toInt()
+        f.location = fl.text.toString()
+        f.startDate = ((fsd.year.toString() + "/" + fsd.month.toString() + "/" + fsd.dayOfMonth.toString()))
+        f.endDate = ((fed.year.toString() + "/" + fed.month.toString() + "/" + fed.dayOfMonth.toString()))
 
         return f
     }
@@ -57,12 +64,19 @@ class EditFestivalDialogFragment(festival: Festival) : DialogFragment() {
         fn = contentView.findViewById(R.id.FestivalName)
         fp = contentView.findViewById(R.id.FestivalNormalPrice)
         fna = contentView.findViewById(R.id.FestivalNormalAmount)
-        //efl = contentView.findViewById(R.id.FestivalLocation)
+        fl = contentView.findViewById(R.id.FestivalLocation)
+        fsd = contentView.findViewById(R.id.StartDate)
+        fed = contentView.findViewById(R.id.EndDate)
 
         fn.setText(f.name)
         fp.setText(f.normalPrice.toString())
         fna.setText(f.normalAmount.toString())
+        fl.setText(f.location)
 
+        val temps = f.startDate.split("/")
+        fsd.init(temps[0].toInt(), temps[1].toInt(), temps[2].toInt(), null)
+        val tempe = f.endDate.split("/")
+        fsd.init(tempe[0].toInt(), tempe[1].toInt(), tempe[2].toInt(), null)
 
         return contentView
     }

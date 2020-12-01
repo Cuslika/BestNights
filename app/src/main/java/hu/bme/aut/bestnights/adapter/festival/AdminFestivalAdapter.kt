@@ -1,4 +1,4 @@
-package hu.bme.aut.bestnights.adapter
+package hu.bme.aut.bestnights.adapter.festival
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ import hu.bme.aut.bestnights.model.Festival
 class AdminFestivalAdapter(private val listener: AdminFestivalClickListener, private val supportFragmentManager: FragmentManager) : RecyclerView.Adapter<AdminFestivalAdapter.FestivalViewHolder>() {
 
     private val festivals = mutableListOf<Festival>()
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FestivalViewHolder{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FestivalViewHolder {
         val festivalView: View = LayoutInflater.from(parent.context).inflate(R.layout.festival_list_admin, parent, false)
         return FestivalViewHolder(festivalView)
     }

@@ -46,7 +46,7 @@ class TicketsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
         user = intent.getSerializableExtra("User") as User
 
-        Log.d("Debug", user.festivals.toString())
+        Log.d("Debug", "Tickets" + user.festivals.toString())
 
         var nv: NavigationView = findViewById(R.id.navView)
         var nh: View = nv.getHeaderView(0)
@@ -87,7 +87,7 @@ class TicketsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     }
 
     private fun loadItemsInBackground() {
-        Log.d("Debug", user.parties.toString())
+        Log.d("Debug", "Tickets Loading in" + user.festivals.toString())
         var fs = user.festivals
         var ps = user.parties
         thread {
@@ -98,6 +98,7 @@ class TicketsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 partyAdapter.updateAll(pitems, ps)
             }
         }
+        Log.d("Debug", "Tickets Loaded in" + user.festivals.toString())
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -114,6 +115,12 @@ class TicketsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+            R.id.home -> {
+                val intent = Intent(this, DecisionActivity::class.java)
+                intent.putExtra("User", user)
+                finish()
+                startActivity(intent)
+            }
             R.id.tickets -> {
                 val intent = Intent(this, TicketsActivity::class.java)
                 intent.putExtra("User", user)

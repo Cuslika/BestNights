@@ -15,7 +15,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var db: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //Thread.sleep(1000)
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
